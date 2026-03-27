@@ -1,0 +1,710 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dakshina Vaishnav</title>
+    <!-- Inter Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Tabler Icons for Dock -->
+    <script src="https://unpkg.com/@tabler/icons@latest"></script>
+    <style>
+        :root {
+            --bg: #000000;
+            --text-primary: #ffffff;
+            --text-secondary: #a1a1aa;
+            --border: #27272a;
+            --dock-bg: rgba(24, 24, 27, 0.6);
+            --pill-bg: #18181b;
+            --pill-border: #27272a;
+        }
+
+        body.light-mode {
+            --bg: #ffffff;
+            --text-primary: #09090b;
+            --text-secondary: #71717a;
+            --border: #e4e4e7;
+            --dock-bg: rgba(255, 255, 255, 0.6);
+            --pill-bg: #f4f4f5;
+            --pill-border: #e4e4e7;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg);
+            color: var(--text-primary);
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+            overflow-x: hidden;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        /* Subtle Background Dot Grid (Magic UI Signature) */
+        .bg-dots {
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            z-index: -1;
+            background-image: radial-gradient(var(--border) 1px, transparent 1px);
+            background-size: 24px 24px;
+            mask-image: linear-gradient(to bottom, black 30%, transparent 80%);
+            -webkit-mask-image: linear-gradient(to bottom, black 30%, transparent 80%);
+            pointer-events: none;
+        }
+
+        .container {
+            max-width: 680px;
+            margin: 0 auto;
+            padding: 5rem 2rem 8rem 2rem;
+        }
+
+        /* Hero */
+        .hero {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 3rem;
+            gap: 2rem;
+        }
+        .hero-info h1 {
+            font-size: 3rem;
+            font-weight: 700;
+            margin: 0 0 0.5rem 0;
+            letter-spacing: -0.04em;
+        }
+        .hero-info p {
+            color: var(--text-primary);
+            font-size: 1.15rem;
+            margin: 0;
+            max-width: 450px;
+        }
+        .hero-avatar {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            background-color: var(--pill-bg);
+            border: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            font-weight: 700;
+            flex-shrink: 0;
+            overflow: hidden;
+        }
+
+        /* Generic Section Styles */
+        section {
+            margin-bottom: 3rem;
+        }
+        h2 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin: 0 0 1rem 0;
+            letter-spacing: -0.02em;
+        }
+        p {
+            color: var(--text-secondary);
+            margin-bottom: 1rem;
+            font-size: 1rem;
+        }
+
+        /* About & Education */
+        .highlight-link {
+            color: var(--text-primary);
+            text-decoration: underline;
+            text-decoration-color: var(--border);
+            text-underline-offset: 4px;
+            transition: all 0.2s;
+        }
+        .highlight-link:hover {
+            text-decoration-color: var(--text-primary);
+        }
+
+        /* Work Experience */
+        .experience-item {
+            display: flex;
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+            position: relative;
+        }
+        .exp-logo {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            background-color: #ffffff;
+            border: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            overflow: hidden;
+            font-weight: 600;
+            font-size: 0.9rem;
+            color: var(--text-primary);
+        }
+        .exp-content { flex-grow: 1; }
+        .exp-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            margin-bottom: 0.2rem;
+        }
+        .exp-header h3 {
+            margin: 0;
+            font-size: 1.1rem;
+            font-weight: 600;
+        }
+        .exp-date {
+            color: var(--text-secondary);
+            font-size: 0.85rem;
+        }
+        .exp-role {
+            color: var(--text-primary);
+            font-size: 0.95rem;
+            margin: 0 0 0.5rem 0;
+        }
+        .exp-desc {
+            margin: 0;
+            font-size: 0.9rem;
+            line-height: 1.6;
+        }
+
+        /* Skills Pills */
+        .skills-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+        .skill-pill {
+            background-color: var(--pill-bg);
+            color: var(--text-primary);
+            padding: 0.25rem 0.8rem;
+            border-radius: 6px;
+            font-size: 0.85rem;
+            font-weight: 500;
+            border: 1px solid var(--pill-border);
+            transition: all 0.2s;
+        }
+        .skill-pill:hover { background-color: var(--border); }
+
+        /* Projects Grid */
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1rem;
+        }
+        .project-card {
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            background-color: transparent;
+            transition: all 0.2s;
+        }
+        .project-card:hover {
+            border-color: var(--text-secondary);
+        }
+        .project-img {
+            height: 160px;
+            background-color: var(--pill-bg);
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            color: var(--text-secondary);
+        }
+        .project-content {
+            padding: 1.25rem;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+        }
+        .project-content h3 { 
+            margin: 0 0 0.25rem 0; 
+            font-size: 1.1rem; 
+        }
+        .project-date {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+            margin-bottom: 0.5rem;
+        }
+        .project-content p { 
+            font-size: 0.9rem; 
+            margin-bottom: 1rem; 
+            flex-grow: 1; 
+        }
+        .project-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.4rem;
+        }
+        .project-tags span {
+            font-size: 0.75rem;
+            padding: 0.15rem 0.5rem;
+            background-color: var(--pill-bg);
+            border-radius: 4px;
+            color: var(--text-secondary);
+            border: 1px solid var(--border);
+        }
+
+        /* Floating Dock */
+        .dock {
+            position: fixed;
+            bottom: 2rem;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: var(--dock-bg);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid var(--border);
+            border-radius: 9999px;
+            padding: 0.5rem;
+            display: flex;
+            gap: 0.5rem;
+            z-index: 100;
+            box-shadow: 0 4px 24px rgba(0,0,0,0.4);
+        }
+        .dock-item {
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-primary);
+            text-decoration: none;
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+            cursor: pointer;
+            border: none;
+            background: transparent;
+        }
+        .dock-item:hover {
+            background-color: var(--pill-bg);
+            transform: scale(1.15) translateY(-5px);
+            border: 1px solid var(--border);
+        }
+        .separator {
+            width: 1px;
+            background-color: var(--border);
+            margin: 0.5rem 0.2rem;
+        }
+
+        /* Animation */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeIn 0.6s ease forwards;
+        }
+        @keyframes fadeIn {
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Modal Styles */
+        .modal-overlay {
+            position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0,0,0,0.7);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            display: flex; align-items: center; justify-content: center;
+            z-index: 1000;
+            opacity: 0; pointer-events: none;
+            transition: opacity 0.3s;
+            padding: 1rem;
+        }
+        .modal-overlay.active { opacity: 1; pointer-events: auto; }
+        
+        .modal {
+            background: var(--bg);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            width: 100%; max-width: 800px; max-height: 90vh;
+            overflow-y: auto;
+            position: relative;
+            display: flex; flex-direction: column;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+        }
+        .modal-close {
+            position: absolute; top: 1rem; right: 1rem;
+            background: var(--pill-bg); border: 1px solid var(--border);
+            color: var(--text-primary); cursor: pointer;
+            width: 36px; height: 36px; border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 1.2rem; transition: all 0.2s; z-index: 2;
+        }
+        .modal-close:hover { background: var(--border); }
+        
+        .modal-content-wrap { display: flex; flex-direction: row; }
+        @media (max-width: 768px) { .modal-content-wrap { flex-direction: column; } }
+        
+        .modal-gallery {
+            flex: 1; padding: 1.5rem;
+            border-right: 1px solid var(--border);
+        }
+        @media (max-width: 768px) { .modal-gallery { border-right: none; border-bottom: 1px solid var(--border); } }
+        
+        .modal-main-img-container {
+            width: 100%; height: 300px;
+            background: var(--pill-bg); border-radius: 8px; overflow: hidden;
+            margin-bottom: 1rem; display: flex; align-items: center; justify-content: center;
+        }
+        .modal-main-img-container img { width: 100%; height: 100%; object-fit: contain; }
+        
+        .modal-thumbnails { display: flex; gap: 0.5rem; overflow-x: auto; padding-bottom: 0.5rem; }
+        .modal-thumb {
+            width: 60px; height: 60px; border-radius: 6px;
+            border: 2px solid transparent; cursor: pointer;
+            object-fit: cover; opacity: 0.6; transition: all 0.2s;
+        }
+        .modal-thumb.active { border-color: var(--text-primary); opacity: 1; }
+        .modal-thumb:hover { opacity: 1; }
+        
+        .modal-info { flex: 1; padding: 2rem 1.5rem; }
+        .modal-info h2 { font-size: 1.8rem; margin-bottom: 0.5rem; }
+        .modal-desc ul { padding-left: 1.2rem; color: var(--text-secondary); margin-top: 1rem; margin-bottom: 1.5rem; }
+        .modal-desc li { margin-bottom: 0.5rem; }
+
+        @media (max-width: 600px) {
+            .hero { flex-direction: column-reverse; align-items: flex-start; }
+            .hero-avatar { width: 90px; height: 90px; }
+            .exp-header { flex-direction: column; align-items: flex-start; }
+            .exp-date { margin-bottom: 0.2rem; }
+            .projects-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body class="light-mode">
+
+    <div class="bg-dots"></div>
+
+    <div class="container fade-in">
+        <!-- Hero Section -->
+        <div class="hero">
+            <div class="hero-info">
+                <h1>Hi, I'm Dakshina</h1>
+                <p>Business Analytics professional. Data pipelines, risk reporting, and operational metrics.</p>
+            </div>
+            <div class="hero-avatar">DV</div>
+        </div>
+
+        <!-- About Section -->
+        <section>
+            <h2>About</h2>
+            <p>
+                Currently completing an <span class="highlight-link">MSc in Business Analytics at Dublin Business School</span>. I have 3+ years of experience streamlining complex financial data pipelines and reducing manual risk reporting. I focus on compliance, strategic insights, and turning raw data into actionable intelligence. 
+            </p>
+        </section>
+
+        <!-- Work Experience Section -->
+        <section>
+            <h2>Work Experience</h2>
+            
+            <div class="experience-item">
+                <div class="exp-logo">
+                    <img src="icici.jpg" alt="ICICI" style="width: 100%; height: 100%; object-fit: contain; padding: 4px;">
+                </div>
+                <div class="exp-content">
+                    <div class="exp-header">
+                        <h3>ICICI Prudential Life Insurance</h3>
+                        <span class="exp-date">July 2023 - Jan 2025</span>
+                    </div>
+                    <p class="exp-role">Assistant Manager – Risk & Data Analytics</p>
+                    <p class="exp-desc">Built SQL + Power BI pipelines automating weekly reports (reduced manual effort 40%). Created operational metrics dashboards improving reporting turnaround by 25%.</p>
+                </div>
+            </div>
+
+            <div class="experience-item">
+                <div class="exp-logo">
+                    <img src="insync.jpg" alt="Insync" style="width: 100%; height: 100%; object-fit: contain; padding: 4px;">
+                </div>
+                <div class="exp-content">
+                    <div class="exp-header">
+                        <h3>Insync Analytics</h3>
+                        <span class="exp-date">Sep 2022 - July 2023</span>
+                    </div>
+                    <p class="exp-role">Financial Analyst – Risk & Data Analysis</p>
+                    <p class="exp-desc">Performed deep-dive quantitative analysis on datasets to evaluate risk. Streamlined data prep using Python and SQL.</p>
+                </div>
+            </div>
+
+            <div class="experience-item">
+                <div class="exp-logo">
+                    <img src="icici.jpg" alt="ICICI Bank" style="width: 100%; height: 100%; object-fit: contain; padding: 4px;">
+                </div>
+                <div class="exp-content">
+                    <div class="exp-header">
+                        <h3>ICICI Bank</h3>
+                        <span class="exp-date">April 2022 - Sep 2022</span>
+                    </div>
+                    <p class="exp-role">Deputy Manager – Credit Risk Monitoring</p>
+                    <p class="exp-desc">Identified early warning indicators and developed automated modeling tools for credit risk.</p>
+                </div>
+            </div>
+
+            <div class="experience-item">
+                <div class="exp-logo">
+                    <img src="nneell.jpg" alt="NNEELL'S INVEST" style="width: 100%; height: 100%; object-fit: contain; padding: 4px;">
+                </div>
+                <div class="exp-content">
+                    <div class="exp-header">
+                        <h3>NNEELL'S INVEST</h3>
+                        <span class="exp-date">May 2021 - July 2021</span>
+                    </div>
+                    <p class="exp-role">Data Analyst (Internship)</p>
+                    <p class="exp-desc">Back-tested trading algorithms using historical time-series data. Processed large datasets in Python.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Education Section -->
+        <section>
+            <h2>Education</h2>
+            <div class="experience-item" style="margin-bottom: 1rem;">
+                <div class="exp-logo">
+                    <img src="dbs.jpg" alt="DBS" style="width: 100%; height: 100%; object-fit: contain; padding: 4px;">
+                </div>
+                <div class="exp-content">
+                    <div class="exp-header">
+                        <h3>Dublin Business School</h3>
+                        <span class="exp-date">2023 - 2024</span>
+                    </div>
+                    <p class="exp-role">M.Sc. in Business Analytics</p>
+                </div>
+            </div>
+            <div class="experience-item">
+                <div class="exp-logo">
+                    <img src="thakur.jpg" alt="Thakur College" style="width: 100%; height: 100%; object-fit: contain; padding: 4px;">
+                </div>
+                <div class="exp-content">
+                    <div class="exp-header">
+                        <h3>Thakur College (Mumbai University)</h3>
+                        <span class="exp-date">2019 - 2021</span>
+                    </div>
+                    <p class="exp-role">Master of Management Studies</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Skills Section -->
+        <section>
+            <h2>Skills</h2>
+            <div class="skills-container" style="gap: 0.8rem;">
+                <span class="skill-pill" style="display: inline-flex; align-items: center; gap: 0.4rem;"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><ellipse cx="12" cy="5" rx="9" ry="3"></ellipse><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"></path><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"></path></svg> SQL</span>
+                <span class="skill-pill" style="display: inline-flex; align-items: center; gap: 0.4rem;"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="4 7 4 4 20 4 20 7"></polyline><line x1="9" y1="20" x2="15" y2="20"></line><line x1="12" y1="4" x2="12" y2="20"></line></svg> Python</span>
+                <span class="skill-pill" style="display: inline-flex; align-items: center; gap: 0.4rem;"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><line x1="3" y1="9" x2="21" y2="9"></line><line x1="9" y1="21" x2="9" y2="9"></line></svg> Pandas</span>
+                <span class="skill-pill" style="display: inline-flex; align-items: center; gap: 0.4rem;"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="16"></line><line x1="8" y1="12" x2="16" y2="12"></line></svg> NumPy</span>
+                <span class="skill-pill" style="display: inline-flex; align-items: center; gap: 0.4rem;"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="20" x2="18" y2="10"></line><line x1="12" y1="20" x2="12" y2="4"></line><line x1="6" y1="20" x2="6" y2="14"></line></svg> Power BI</span>
+                <span class="skill-pill" style="display: inline-flex; align-items: center; gap: 0.4rem;"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><path d="M8 13h2M8 17h2M14 13h2M14 17h2"></path></svg> Advanced Excel</span>
+                <span class="skill-pill" style="display: inline-flex; align-items: center; gap: 0.4rem;"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg> JIRA</span>
+                <span class="skill-pill" style="display: inline-flex; align-items: center; gap: 0.4rem;"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg> Business Analysis</span>
+                <span class="skill-pill" style="display: inline-flex; align-items: center; gap: 0.4rem;"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"></polyline><polyline points="17 6 23 6 23 12"></polyline></svg> Process Optimization</span>
+            </div>
+        </section>
+
+        <!-- Projects Section -->
+        <section>
+            <h2 style="font-size: 2.5rem; text-align: center; margin-bottom: 0.5rem; letter-spacing: -0.05em;">Check out my latest work</h2>
+            <p style="text-align: center; max-width: 500px; margin: 0 auto 3rem auto; font-size: 1.1rem;">
+                I've developed a variety of analytical pipelines and machine learning algorithms. Here are a few featured projects covering computer vision, geospatial intelligence, and predictive modeling.
+            </p>
+            <div class="projects-grid">
+                <!-- Project 1 -->
+                <div class="project-card" style="cursor: pointer;" onclick="openModal(1)">
+                    <div class="project-img" style="padding: 0;">
+                        <img src="dissertation.jpg" alt="Waste Detection" style="width: 100%; height: 100%; object-fit: cover;">
+                    </div>
+                    <div class="project-content">
+                        <h3>Waste Detection AI</h3>
+                        <span class="project-date">Dissertation</span>
+                        <p>Real-time waste detection using YOLOv8-Large. 76.4% mAP. Optimized for edge deployment (5ms).</p>
+                        <div class="project-tags">
+                            <span>PyTorch</span>
+                            <span>OpenCV</span>
+                            <span>YOLOv8</span>
+                        </div>
+                    </div>
+                </div>
+                <!-- Project 2 -->
+                <div class="project-card" style="cursor: pointer;" onclick="openModal(2)">
+                    <div class="project-img" style="padding: 0;">
+                        <img src="air-view.jpg" alt="Air View" style="width: 100%; height: 100%; object-fit: cover;">
+                    </div>
+                    <div class="project-content">
+                        <h3>Air View of Dublin</h3>
+                        <span class="project-date">Data Analytics</span>
+                        <p>Power BI dashboard integrating road network and pollution data to identify high-emission zones.</p>
+                        <div class="project-tags">
+                            <span>Power BI</span>
+                            <span>Data Viz</span>
+                        </div>
+                    </div>
+                </div>
+                <!-- Project 3 -->
+                <div class="project-card" style="cursor: pointer;" onclick="openModal(3)">
+                    <div class="project-img">
+                        <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline></svg>
+                    </div>
+                    <div class="project-content">
+                        <h3>Credit Risk Prediction</h3>
+                        <span class="project-date">Machine Learning</span>
+                        <p>End-to-end ML pipeline predicting loan default risk. Feature engineering and data cleaning.</p>
+                        <div class="project-tags">
+                            <span>Python</span>
+                            <span>ML</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Contact Section -->
+        <section style="text-align: center; margin-top: 4rem; padding-top: 2rem; border-top: 1px solid var(--border);">
+            <h2 style="font-size: 1.5rem; margin-bottom: 0.5rem;">Get in Touch</h2>
+            <p style="color: var(--text-secondary); margin-bottom: 1.5rem;">I'm based in Ireland and actively exploring new opportunities.</p>
+            <div style="display: flex; justify-content: center; gap: 2rem; flex-wrap: wrap;">
+                <a href="mailto:dakshinabairagi@gmail.com" style="color: var(--text-primary); text-decoration: none; display: flex; align-items: center; gap: 0.5rem; font-weight: 500;">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
+                    dakshinabairagi@gmail.com
+                </a>
+                <a href="tel:+353892790207" style="color: var(--text-primary); text-decoration: none; display: flex; align-items: center; gap: 0.5rem; font-weight: 500;">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></svg>
+                    +353 89 279 0207
+                </a>
+            </div>
+        </section>
+    </div>
+
+    <!-- Floating Dock -->
+    <div class="dock">
+        <a href="#" class="dock-item" title="Home">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
+        </a>
+        <a href="https://linkedin.com/in/dakshina-vaishnav-06b833178" target="_blank" class="dock-item" title="LinkedIn">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path><rect x="2" y="9" width="4" height="12"></rect><circle cx="4" cy="4" r="2"></circle></svg>
+        </a>
+        <a href="mailto:dakshinabairagi@gmail.com" class="dock-item" title="Email">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
+        </a>
+        <div class="separator"></div>
+        <button class="dock-item toggle-theme" title="Toggle Theme" onclick="document.body.classList.toggle('light-mode')">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>
+        </button>
+    </div>
+
+    <!-- Project Modal -->
+    <div id="project-modal" class="modal-overlay" onclick="closeModalOnBg(event)">
+        <div class="modal">
+            <button class="modal-close" onclick="closeModal()">×</button>
+            <div class="modal-content-wrap">
+                <div class="modal-gallery" id="modal-gallery">
+                    <div class="modal-main-img-container">
+                        <img id="modal-main-img" src="" alt="Project Image">
+                    </div>
+                    <div id="modal-thumbnails" class="modal-thumbnails"></div>
+                </div>
+                <div class="modal-info">
+                    <span id="modal-date" class="project-date" style="display:block; margin-bottom:0.5rem;"></span>
+                    <h2 id="modal-title"></h2>
+                    <div id="modal-tags" class="project-tags" style="margin-bottom: 1.5rem;"></div>
+                    <div id="modal-desc" class="modal-desc" style="color: var(--text-secondary); line-height: 1.6;"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const projectData = {
+            1: {
+                title: "Waste Detection AI",
+                date: "M.Sc. Dissertation",
+                tags: ["PyTorch", "OpenCV", "YOLOv8", "Data Augmentation"],
+                desc: `<p>Developed an automated waste detection system leveraging YOLOv8-Large architecture for my Master's dissertation. This highly efficient model solves genuine operational challenges in recycling.</p>
+                       <ul>
+                           <li>Achieved <b>91.2% mAP@50</b> accuracy on unseen test object data.</li>
+                           <li>Optimized for real-time edge deployment, running 95 images per second (5ms inference time).</li>
+                           <li>Engineered a robust data quality pipeline and utilized heavy augmentation (mixup, mosaic, rotation) to correct mislabelled data and improve generalization.</li>
+                       </ul>`,
+                images: ["dissertation.jpg", "waste-aug.jpg", "waste-matrix.jpg", "waste-boxes.jpg", "waste-metrics.jpg"]
+            },
+            2: {
+                title: "Air View of Dublin",
+                date: "Data Analytics & BI",
+                tags: ["Power BI", "Data Visualization", "Geospatial Data"],
+                desc: `<p>A comprehensive Business Intelligence dashboard correlating Dublin's street network layout with localized pollution metrics (PM2.5, CO2, NO2).</p>
+                       <ul>
+                           <li>Aggregated datasets displaying Cumulative Ozone Levels and Street-Level CO2 Heatmaps across multiple zones in Dublin.</li>
+                           <li>Identified critical high-emission zones and generated actionable insights for urban planning.</li>
+                       </ul>`,
+                images: ["air-view.jpg"]
+            },
+            3: {
+                title: "Credit Risk Prediction",
+                date: "Machine Learning",
+                tags: ["Python", "Scikit-Learn", "Machine Learning"],
+                desc: `<p>End-to-end Machine Learning pipeline aimed at predicting loan default probabilities and minimizing risk exposure.</p>
+                       <ul>
+                           <li>Engineered highly predictive features from thousands of scattered historical records.</li>
+                           <li>Built robust regression and classification models validating early-warning indicators.</li>
+                       </ul>`,
+                images: []
+            }
+        };
+
+        function openModal(id) {
+            const data = projectData[id];
+            document.getElementById('modal-title').innerText = data.title;
+            document.getElementById('modal-date').innerText = data.date;
+            document.getElementById('modal-desc').innerHTML = data.desc;
+            
+            // Populate Tags
+            const tagsCont = document.getElementById('modal-tags');
+            tagsCont.innerHTML = '';
+            data.tags.forEach(t => {
+                const s = document.createElement('span');
+                s.innerText = t;
+                tagsCont.appendChild(s);
+            });
+
+            // Populate Gallery
+            const galleryCont = document.getElementById('modal-gallery');
+            const mainImg = document.getElementById('modal-main-img');
+            const thumbCont = document.getElementById('modal-thumbnails');
+            
+            if (data.images && data.images.length > 0) {
+                galleryCont.style.display = 'block';
+                mainImg.src = data.images[0];
+                thumbCont.innerHTML = '';
+                data.images.forEach((imgUrl, idx) => {
+                    const img = document.createElement('img');
+                    img.src = imgUrl;
+                    img.className = 'modal-thumb' + (idx === 0 ? ' active' : '');
+                    img.onclick = () => {
+                        mainImg.src = imgUrl;
+                        document.querySelectorAll('.modal-thumb').forEach(t => t.classList.remove('active'));
+                        img.classList.add('active');
+                    };
+                    thumbCont.appendChild(img);
+                });
+            } else {
+                galleryCont.style.display = 'none'; // hide gallery if no images
+            }
+
+            document.getElementById('project-modal').classList.add('active');
+            document.body.style.overflow = 'hidden'; // stop page scrolling
+        }
+
+        function closeModal() {
+            document.getElementById('project-modal').classList.remove('active');
+            document.body.style.overflow = '';
+        }
+
+        function closeModalOnBg(e) {
+            if(e.target.id === 'project-modal') {
+                closeModal();
+            }
+        }
+    </script>
+</body>
+</html>
